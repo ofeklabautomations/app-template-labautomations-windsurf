@@ -1,0 +1,67 @@
+version: '3.9'
+services:
+  www:
+    build: ./01_frontend/www
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - NEXT_PUBLIC_UPDATE_PUBLIC_KEY=${NEXT_PUBLIC_UPDATE_PUBLIC_KEY}
+      - NEXT_PUBLIC_POSTHOG_KEY=${NEXT_PUBLIC_POSTHOG_KEY}
+      - NEXT_PUBLIC_POSTHOG_HOST=${NEXT_PUBLIC_POSTHOG_HOST}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+    depends_on:
+      - gateway
+  dashboard:
+    build: ./01_frontend/dashboard
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - NEXT_PUBLIC_UPDATE_PUBLIC_KEY=${NEXT_PUBLIC_UPDATE_PUBLIC_KEY}
+      - NEXT_PUBLIC_POSTHOG_KEY=${NEXT_PUBLIC_POSTHOG_KEY}
+      - NEXT_PUBLIC_POSTHOG_HOST=${NEXT_PUBLIC_POSTHOG_HOST}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+    depends_on:
+      - gateway
+  gateway:
+    build: ./02_backend
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - PORT=4000
+    depends_on:
+      - billing_service
+      - analytics_service
+      - ai_service
+  billing_service:
+    build: ./03_microservices/billing_service
+    ports:
+      - "8000:8000"
+    environment:
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+  analytics_service:
+    build: ./03_microservices/analytics_service
+    ports:
+      - "8001:8001"
+    environment:
+      - POSTHOG_KEY=${NEXT_PUBLIC_POSTHOG_KEY}
+      - POSTHOG_API=${NEXT_PUBLIC_POSTHOG_HOST}
+  ai_service:
+    build: ./03_microservices/ai_service
+    ports:
+      - "8002:8002"
+    environment:
+      - NODE_ENV=development
+
+# Add a Supabase local dev service if needed, or use cloud

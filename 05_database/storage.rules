@@ -1,0 +1,10 @@
+-- Supabase Storage Rules (example, adjust as needed)
+{
+  "rules": [
+    {
+      "action": "*",
+      "resource": "*",
+      "condition": "auth != null"
+    }
+  ]
+}
