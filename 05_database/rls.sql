@@ -1,4 +1,4 @@
--- Supabase Row-Level Security Policies
+docker compose up --build-- Supabase Row-Level Security Policies
 
 -- Enable RLS on subscriptions table
 alter table subscriptions enable row level security;

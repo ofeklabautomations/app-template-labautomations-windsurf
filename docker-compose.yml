@@ -1,7 +1,9 @@
 version: '3.9'
 services:
   www:
-    build: ./01_frontend/www
+    build:
+      context: ./01_frontend/www
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
@@ -11,12 +13,14 @@ services:
       - NEXT_PUBLIC_UPDATE_PUBLIC_KEY=${NEXT_PUBLIC_UPDATE_PUBLIC_KEY}
       - NEXT_PUBLIC_POSTHOG_KEY=${NEXT_PUBLIC_POSTHOG_KEY}
       - NEXT_PUBLIC_POSTHOG_HOST=${NEXT_PUBLIC_POSTHOG_HOST}
-      - RESEND_API_KEY=${RESEND_API_KEY}
       - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+      - PORT=3000
     depends_on:
       - gateway
   dashboard:
-    build: ./01_frontend/dashboard
+    build:
+      context: ./01_frontend/dashboard
+      dockerfile: Dockerfile
     ports:
       - "3001:3001"
     environment:
@@ -26,12 +30,14 @@ services:
       - NEXT_PUBLIC_UPDATE_PUBLIC_KEY=${NEXT_PUBLIC_UPDATE_PUBLIC_KEY}
       - NEXT_PUBLIC_POSTHOG_KEY=${NEXT_PUBLIC_POSTHOG_KEY}
       - NEXT_PUBLIC_POSTHOG_HOST=${NEXT_PUBLIC_POSTHOG_HOST}
-      - RESEND_API_KEY=${RESEND_API_KEY}
       - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+      - PORT=3001
     depends_on:
       - gateway
   gateway:
-    build: ./02_backend
+    build:
+      context: .
+      dockerfile: 02_backend/Dockerfile
     ports:
       - "4000:4000"
     environment:
