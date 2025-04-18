@@ -94,3 +94,17 @@ See [`07_docs/architecture.md`](07_docs/architecture.md) for a flow diagram and 
 
 ## 💡 Fork & Extend
 This template is designed for rapid SaaS prototyping. Add new microservices, swap out providers, or extend the UI as needed!
+
+---
+
+## TypeScript Base Config
+
+This repo requires a `tsconfig.base.json` at the root for builds to work.
+If you create a new package or app, extend from this base config in your `tsconfig.json`, for example:
+
+```json
+"extends": "../../tsconfig.base.json"
+```
+
+**Docker builds for www and dashboard automatically copy this file into the build context.**
+If you encounter errors about missing `tsconfig.base.json`, ensure this file exists at the root.

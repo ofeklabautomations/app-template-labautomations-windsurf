@@ -1,9 +1,8 @@
-version: '3.9'
 services:
   www:
     build:
-      context: ./01_frontend/www
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: 01_frontend/www/Dockerfile
     ports:
       - "3000:3000"
     environment:
@@ -12,15 +11,14 @@ services:
       - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
       - NEXT_PUBLIC_UPDATE_PUBLIC_KEY=${NEXT_PUBLIC_UPDATE_PUBLIC_KEY}
       - NEXT_PUBLIC_POSTHOG_KEY=${NEXT_PUBLIC_POSTHOG_KEY}
-      - NEXT_PUBLIC_POSTHOG_HOST=${NEXT_PUBLIC_POSTHOG_HOST}
       - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
       - PORT=3000
     depends_on:
       - gateway
   dashboard:
     build:
-      context: ./01_frontend/dashboard
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: 01_frontend/dashboard/Dockerfile
     ports:
       - "3001:3001"
     environment:
@@ -29,7 +27,6 @@ services:
       - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
       - NEXT_PUBLIC_UPDATE_PUBLIC_KEY=${NEXT_PUBLIC_UPDATE_PUBLIC_KEY}
       - NEXT_PUBLIC_POSTHOG_KEY=${NEXT_PUBLIC_POSTHOG_KEY}
-      - NEXT_PUBLIC_POSTHOG_HOST=${NEXT_PUBLIC_POSTHOG_HOST}
       - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
       - PORT=3001
     depends_on:
@@ -44,6 +41,8 @@ services:
       - NODE_ENV=development
       - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
       - PORT=4000
+      - WWW_PORT=3000
+      - DASHBOARD_PORT=3001
     depends_on:
       - billing_service
       - analytics_service
