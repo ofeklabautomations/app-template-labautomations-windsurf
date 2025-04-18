@@ -60,6 +60,8 @@ See `07_docs/architecture.md` for architecture details.
 
 ## 📚 Documentation
 - [07_docs/architecture.md](07_docs/architecture.md): Sequence diagram, architecture overview.
+- [07_docs/project_requirement_document.md](07_docs/project_requirement_document.md): Project requirements.
+- [07_docs/app_flow_document.md](07_docs/app_flow_document.md): Application flow.
 - Each folder contains a `README.md` with details and usage.
 - [08_github/](08_github/): Issue/PR templates for project hygiene.
 - [06_scripts/](06_scripts/): Scripts for dev, build, lint, test.
@@ -75,25 +77,32 @@ See `07_docs/architecture.md` for architecture details.
 
 ---
 
+## 🛠️ Best Practices
+
+This project follows modern best practices for its tech stack:
+
+- **Next.js**: App Router, server components, image optimization, error boundaries, i18n, data fetching (`getServerSideProps`/`getStaticProps`).
+- **React**: Functional components, hooks, `React.memo`, Context API, prop type validation, code-splitting with `React.lazy`/`Suspense`.
+- **TypeScript**: Strict mode, consistent type definitions, utility types, comprehensive error handling.
+- **React Query**: Efficient data fetching/caching, query keys, error/loading states, mutations for side effects.
+- **React Hook Form & Zod**: Efficient form handling/validation, schema definitions, custom rules, integration for seamless validation.
+- **Tailwind CSS**: Responsive design, custom theme, accessibility, component-level styling, JIT mode.
+- **Clerk**: Secure auth, session/user management, built-in UI, error handling.
+- **Supabase**: Scalable backend, real-time features, auth, storage, edge functions.
+- **Stripe**: Secure payment processing, webhooks, PCI compliance, Elements, billing/subscriptions.
+- **OpenAI**: AI features, error handling, rate limiting, streaming, fine-tuning.
+
+---
+
 ## 📝 Contributing
-- Open issues/PRs using templates in `08_github/`.
-- Run all checks before submitting.
+
+Contributions are welcome! Please see [`07_docs/contributing.md`](07_docs/contributing.md) if available, or open issues/PRs directly.
 
 ---
 
-## 📦 Service Details
-- See each service's folder for a `README.md` explaining its purpose, environment variables, and local dev notes.
-- SQL schema and RLS policies are fully documented in `05_database/`.
+## 📬 Contact
 
----
-
-## 🗺️ Architecture
-See [`07_docs/architecture.md`](07_docs/architecture.md) for a flow diagram and sequence breakdown.
-
----
-
-## 💡 Fork & Extend
-This template is designed for rapid SaaS prototyping. Add new microservices, swap out providers, or extend the UI as needed!
+For questions or support, please contact the maintainers listed in [`08_github/MAINTAINERS.md`](08_github/MAINTAINERS.md) or open a GitHub issue.
 
 ---
 
