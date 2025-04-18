@@ -6,28 +6,21 @@ WORKDIR /app
 COPY package.json ./
 COPY tsconfig.base.json ./
 
-# Copy microservices package files (if present)
-COPY ../03_microservices/ai_service/package.json ./03_microservices/ai_service/
-COPY ../03_microservices/analytics_service/package.json ./03_microservices/analytics_service/
-COPY ../03_microservices/billing_service/package.json ./03_microservices/billing_service/
+# Only copy Node.js microservice (auth_service) package.json if present
 COPY ../03_microservices/auth_service/package.json ./03_microservices/auth_service/
 
 # Install backend dependencies
 RUN npm install
 
-# Install microservices dependencies
-RUN cd 03_microservices/ai_service && npm install && cd - \
- && cd 03_microservices/analytics_service && npm install && cd - \
- && cd 03_microservices/billing_service && npm install && cd - \
- && cd 03_microservices/auth_service && npm install && cd -
+# Install Node.js microservice dependencies if present
+RUN if [ -f 03_microservices/auth_service/package.json ]; then cd 03_microservices/auth_service && npm install && cd -; fi
 
 # Copy all source code
 COPY . .
 COPY ../03_microservices ./03_microservices
 
-# Copy microservice launcher script
-COPY start_microservices.sh ./
-RUN chmod +x ./start_microservices.sh
+# Remove COPY of start_microservices.sh and fallback to running backend directly
+# If you want to launch the Python microservices, use docker compose for those services
 
 EXPOSE 4000 5000 5001 5002 5003
-CMD ["./start_microservices.sh"]
+CMD ["npm", "run", "start"]
