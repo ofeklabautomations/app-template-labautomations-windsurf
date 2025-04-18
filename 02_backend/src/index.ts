@@ -22,6 +22,23 @@ app.use('/billing', createProxyMiddleware({ target: 'http://billing_service:8000
 app.use('/analytics', createProxyMiddleware({ target: 'http://analytics_service:8001', changeOrigin: true, pathRewrite: {'^/analytics': ''} }));
 app.use('/ai', createProxyMiddleware({ target: 'http://ai_service:8002', changeOrigin: true, pathRewrite: {'^/ai': ''} }));
 
+const { OpenAI } = require('openai-api');
+const openai = new OpenAI(process.env.OPENAI_API_KEY);
+
+app.get('/hello', async (req, res) => {
+  try {
+    const result = await openai.whisper({
+      input: 'Hello from the SaaS template',
+      model: 'whisper-1',
+    });
+    res.json({ message: result.text });
+  } catch (error) {
+    logger.error({ error }, 'Error calling Whisper API');
+    res.status(500).json({ error: 'Error calling Whisper API' });
+  }
+});
+
+
 // Next.js apps (dashboard, www)
 app.use('/dashboard', createProxyMiddleware({ target: 'http://dashboard:3001', changeOrigin: true }));
 app.use('/', createProxyMiddleware({ target: 'http://www:3000', changeOrigin: true }));
