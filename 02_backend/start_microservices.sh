@@ -13,5 +13,8 @@ node ../03_microservices/billing_service/dist/index.js &
 # Start Auth Service
 node ../03_microservices/auth_service/dist/index.js &
 
+# Start Luma Service
+bun run ../03_microservices/luma_service/index.ts &
+
 # Wait for all background jobs
 wait
